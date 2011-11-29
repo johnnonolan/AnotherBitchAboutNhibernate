@@ -1,10 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using FluentNHibernate.Cfg;
+using FluentNHibernate.Cfg.Db;
+using NHibernate;
+using NHibernate.Cfg;
+
 
 namespace MyDataLayer
 {
+
+    public interface IUnitOfWorkFactory
+    {
+        IUnitOfWork Create();
+    }
+
+    //public class UnitOfWorkFactory : IUnitOfWorkFactory
+    //{
+    //    //Configuration _configuration;
+    //    //ISession _currentSession;
+
+    //    //public UnitOfWorkFactory()
+    //    //{
+    //    //}
+
+    //    //public IUnitOfWork Create()
+    //    //{
+    //    //    _configuration = Fluently.Configure()
+    //    //        .Database(MsSqlConfiguration.MsSql2008.ConnectionString(c => c.Is(Properties.Settings.Default["Con"].ToString())).AdoNetBatchSize(100))
+    //    //        .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ARepository>())
+    //    //        .BuildConfiguration();
+    //    //    return null;
+    //    //}
+
+    //    //public ISession CurrentSession
+    //    //{
+    //    //    get
+    //    //    {
+    //    //        if (_currentSession == null)
+    //    //            throw new InvalidOperationException("You are not in a unit of work.");
+    //    //        return _currentSession;
+    //    //    }
+    //    //    set { _currentSession = value; }
+    //    //}
+
+    //}
+
+
     public interface IUnitOfWork
     {
         IUnitOfWork Start();
@@ -12,15 +52,34 @@ namespace MyDataLayer
 
     public class UnitOfWork : IUnitOfWork
     {
-        public UnitOfWork()
+            
+        private IUnitOfWorkFactory _unitOfWorkFactory;
+
+        private IUnitOfWork _innerUoW;
+        private ISessionFactory _sessionFactory = 
+        private ISession _currentSession;
+
+        public static IUnitOfWork UOW { get; private set; }
+        ;
+        public ISession CurrentSession
         {
-            // configure NH or something.
+            get
+            {
+                if (_currentSession == null)
+                    _currentSession = _sessionFactory.OpenSession();
+                else
+                {
+                    _currentSession = _sessionFactory.GetCurrentSession();
+                }
+                return _currentSession;
+            }
+            set { _currentSession = value; }
         }
-        static IUnitOfWork _uow;
 
         public IUnitOfWork Start()
         {
-            throw new NotImplementedException();
+            _innerUoW = _unitOfWorkFactory.Create();
+            return _innerUoW;
         }
     }
 }
