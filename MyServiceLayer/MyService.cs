@@ -9,16 +9,27 @@ namespace MyServiceLayer
     public class MyService
     {
 
-        public MyEntity GetMyEntity()
+        public IEnumerable<MyEntity> GetMyEntities()
         {
-            //start uow
-            var uow = new UnitOfWork();
-            uow.Start();
-            var dl = new ARepository();
-            dl.f
+            using (var uow = new UnitOfWork())
+            {
 
-                return new MyEntity {Description = "John"};
-            //finish uow
+                uow.Start();
+                var dl = new ARepository(uow);
+                var entities = new List<MyEntity>();
+                entities.Add(dl.Get(1));
+                entities.Add(dl.Get(2));
+                return entities;
+
+            }
+            
+        }
+
+        private MyEntity GetMyEntity(int Id, UnitOfWork uow)
+        {
+            var dl = new ARepository(uow);
+            return dl.Get(Id);
+              
         }
 
     }

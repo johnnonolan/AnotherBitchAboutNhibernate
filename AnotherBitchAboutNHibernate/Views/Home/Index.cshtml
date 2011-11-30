@@ -1,5 +1,6 @@
-﻿@using MyDataLayer
-@model MyEntity
+﻿@using AnotherBitchAboutNHibernate.Models
+@using MyDataLayer
+@model MyModel
 
 @{
     ViewBag.Title = "title";
@@ -8,5 +9,7 @@
 
 <h2>title</h2>
 
-<p>Hello mom  @Html.TextBoxFor(m => m.Description)
+<p>
+Hello mom  @Html.TextBoxFor(m => m.Description1)
+Hello mom  @Html.TextBoxFor(m => m.Description2)
 </p>

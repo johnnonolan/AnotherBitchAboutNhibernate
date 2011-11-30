@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using AnotherBitchAboutNHibernate.Models;
 using MyServiceLayer;
 
 namespace AnotherBitchAboutNHibernate.Controllers
@@ -14,9 +11,10 @@ namespace AnotherBitchAboutNHibernate.Controllers
 
         public ActionResult Index()
         {
-            var service = new MyService();
-            var model = service.GetMyEntity();
-            return View(model);
+            
+            var models = new MyModels();
+            
+            return View(models.GetEm());
         }
 
     }

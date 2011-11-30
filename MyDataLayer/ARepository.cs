@@ -1,30 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FluentNHibernate.Cfg;
-using FluentNHibernate.Cfg.Db;
-using NHibernate.Cfg;
-
-namespace MyDataLayer
+﻿namespace MyDataLayer
 {
     public class ARepository
     {
+        readonly IUnitOfWork _unitOfWork;
 
 
-        public ARepository()
+        public ARepository(IUnitOfWork unitOfWork)
         {
-                
+            _unitOfWork = unitOfWork;
         }
-        public MyEntity Get()
+
+        public MyEntity Get(int Id)
         {
-            //using (var session = SessionFactory.OpenSession())
-            //using (var transaction = session.BeginTransaction())
-            //{
-            //    var entity = session.Get<TEntity>(id);
-            //    transaction.Commit();
-            return null;//entity;
-            //}
+            var session =  _unitOfWork.CurrentSession;
+            using (var transaction = session.BeginTransaction())
+            {
+                var entity = session.Get<MyEntity>(Id);
+                transaction.Commit();
+                return entity;
+            }
+
         }
     }
 }
