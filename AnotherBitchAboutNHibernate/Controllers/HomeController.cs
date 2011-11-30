@@ -17,5 +17,10 @@ namespace AnotherBitchAboutNHibernate.Controllers
             return View(models.GetEm());
         }
 
+        public ActionResult Next()
+        {
+            var models = new MyModels();
+            return View(models.GetEm2());
+        }
     }
 }

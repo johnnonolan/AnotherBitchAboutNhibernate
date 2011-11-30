@@ -66,9 +66,10 @@ namespace MyDataLayer
         }
 
         public void Dispose()
-        {
-            _currentSession.Flush();
+        {         
+            _currentSession.Flush();           
             _currentSession.Dispose();
+            CurrentSessionContext.Unbind(_sessionFactory);
         }
     }
 }

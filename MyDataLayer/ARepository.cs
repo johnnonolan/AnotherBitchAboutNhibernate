@@ -21,5 +21,17 @@
             }
 
         }
+
+        public MyOtherEntity GetAggregate()
+        {
+            var session = _unitOfWork.CurrentSession;
+            using (var transaction = session.BeginTransaction())
+            {
+                var entity = session.Get<MyOtherEntity>(1);
+                transaction.Commit();
+                return entity;
+            }
+            
+        }
     }
 }

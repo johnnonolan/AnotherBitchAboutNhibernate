@@ -15,5 +15,13 @@ namespace AnotherBitchAboutNHibernate.Models
             var model = new MyModel {Description1 = myentities[0].Description, Description2 = myentities[1].Description};
             return model;
         }
+
+        public MyCompositeModel GetEm2()
+        {
+            var service = new MyService();
+            var stuff = service.GetMyCompositeEntity();
+            return  new MyCompositeModel {DescriptionOuter = stuff[0], DescriptionInner = stuff[1]};
+
+        }
     }
 }
