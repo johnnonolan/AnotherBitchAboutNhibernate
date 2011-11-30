@@ -11,14 +11,9 @@ namespace MyDataLayer
     public class ARepository
     {
 
-        protected Configuration Configuration;
 
         public ARepository()
         {
-            Configuration = Fluently.Configure()
-                .Database(MsSqlConfiguration.MsSql2008.ConnectionString(c => c.Is(Properties.Settings.Default["Con"].ToString())).AdoNetBatchSize(100))
-                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ARepository>())
-                .BuildConfiguration();
                 
         }
         public MyEntity Get()

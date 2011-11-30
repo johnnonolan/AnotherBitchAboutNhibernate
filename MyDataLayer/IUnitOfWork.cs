@@ -24,11 +24,11 @@ namespace MyDataLayer
 
     //    //public IUnitOfWork Create()
     //    //{
-    //    //    _configuration = Fluently.Configure()
-    //    //        .Database(MsSqlConfiguration.MsSql2008.ConnectionString(c => c.Is(Properties.Settings.Default["Con"].ToString())).AdoNetBatchSize(100))
-    //    //        .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ARepository>())
-    //    //        .BuildConfiguration();
-    //    //    return null;
+        //    //    _configuration = Fluently.Configure()
+        //    //        .Database(MsSqlConfiguration.MsSql2008.ConnectionString(c => c.Is(Properties.Settings.Default["Con"].ToString())).AdoNetBatchSize(100))
+        //    //        .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ARepository>())
+        //    //        .BuildConfiguration();
+        //    //    return null;
     //    //}
 
     //    //public ISession CurrentSession
@@ -47,7 +47,7 @@ namespace MyDataLayer
 
     public interface IUnitOfWork
     {
-        IUnitOfWork Start();
+       // IUnitOfWork Start();
     }
 
     public class UnitOfWork : IUnitOfWork
@@ -56,11 +56,11 @@ namespace MyDataLayer
         private IUnitOfWorkFactory _unitOfWorkFactory;
 
         private IUnitOfWork _innerUoW;
-        private ISessionFactory _sessionFactory = 
+        ISessionFactory _sessionFactory; 
         private ISession _currentSession;
 
         public static IUnitOfWork UOW { get; private set; }
-        ;
+        
         public ISession CurrentSession
         {
             get
@@ -76,10 +76,16 @@ namespace MyDataLayer
             set { _currentSession = value; }
         }
 
-        public IUnitOfWork Start()
+        public void  Start()
         {
-            _innerUoW = _unitOfWorkFactory.Create();
-            return _innerUoW;
+            // probs should put this elsewhere.
+            _sessionFactory = Fluently.Configure()
+                .Database(MsSqlConfiguration.MsSql2008.ConnectionString(c => c.Is(Properties.Settings.Default["Con"].ToString())).AdoNetBatchSize(100))
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ARepository>())
+                .BuildConfiguration().BuildSessionFactory();
+        
+            //_innerUoW = _unitOfWorkFactory.Create();
+            //return _innerUoW;
         }
     }
 }

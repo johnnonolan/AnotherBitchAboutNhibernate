@@ -12,7 +12,11 @@ namespace MyServiceLayer
         public MyEntity GetMyEntity()
         {
             //start uow
-                
+            var uow = new UnitOfWork();
+            uow.Start();
+            var dl = new ARepository();
+            dl.f
+
                 return new MyEntity {Description = "John"};
             //finish uow
         }
