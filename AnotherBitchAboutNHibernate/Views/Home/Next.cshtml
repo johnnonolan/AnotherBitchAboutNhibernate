@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "More.cshtml";
+}
+@using AnotherBitchAboutNHibernate.Models
+@model MyCompositeModel
+
+<h2>
+  A composite entity lazy loaded.
+</h2>
+
+<p>
+    @Html.TextBoxFor(m => m.DescriptionInner)
+    @Html.TextBoxFor(m => m.DescriptionOuter)
+</p>
