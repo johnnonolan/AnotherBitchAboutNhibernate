@@ -48,5 +48,22 @@ namespace MyServiceLayer
 
             }
         }
+
+        public void DoSomeStuff()
+        {
+            using (var uow = new UnitOfWork())
+            {
+                uow.Start();
+                var dl = new ARepository(uow);
+                var otherentity = dl.GetAggregate();
+                otherentity.Children[1].Description = "BABY!";
+
+
+                //some DTO
+
+
+            }
+            
+        }
     }
 }
